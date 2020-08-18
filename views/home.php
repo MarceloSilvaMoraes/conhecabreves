@@ -131,50 +131,10 @@ function hg_request($parametros, $chave = null, $endpoint = 'weather')
                     <h1>Nenhum Estabelecimento Cadastrado</h1>
                 <?php endif; ?>
             </div>
-            <div class="container nossosParceiros">
-                <h1>Parceiros</h1>
-                <div class="parceirosImg">
-                    <?php foreach ($parceiros as $item) : ?>
-                        <a target="_blank" href="<?php BASE_URL ?>parceiro/<?php echo $item['url']; ?>">
-                            <div class="par">
-                                <div>
-                                    <img alt="lista de parceiros" src="<?php echo BASE_URL ?>assets/arquivos/<?php echo $item['img_parceiro'] ?>">
-                                </div>
-                                <strong><?php echo $item['nome']; ?></strong>
-                            </div>
-                            <div>
-                            </div>
-                        </a>
-                    <?php endforeach; ?>
-                </div>
-            </div>
+          
         </div>
     </div>
 </div>
-<!-- <div class="container table-responsive" style="z-index:999999999999999999; position:relative; color:white">
-    <table class="table table-striped">
-    <thead class="thead-dark" style="z-index:999999999999999999;">
-        <tr>
-            <th>facebook</th>
-        </tr>
-        </thead>
-        <tbody >
-         <?php
-            //  foreach ($estatistica as $item) :
-            ?>
-            <tr>
-                <td><?php
-                    //  echo count($item['facebook']); 
-                    ?></td>
-            </tr>
-        <?php
-        // endforeach; 
-        ?> -->
-
-<!-- </tbody>
-
-</table>
-</div>  -->
 <div class="col-sm-12">
     <div style="z-index:999999999999999999; position:relative;">
         <!-- Modal -->
@@ -252,49 +212,3 @@ function hg_request($parametros, $chave = null, $endpoint = 'weather')
 </body>
 
 </html>
-<style>
-    .nossosParceiros {
-        z-index: 999999999999999999;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .nossosParceiros h1 {
-      margin-top: 80px ;
-      margin-bottom: 10px !important;
-    }
-
-    .parceirosImg {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .parceirosImg a:hover {
-        list-style: none;
-        text-decoration: none;
-    }
-
-    .par {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        text-align: center;
-        margin: 10px;
-
-    }
-
-    .parceirosImg img {
-        z-index: 999999999999999999;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        justify-content: center;
-        margin: 10px;
-        border-radius: 50%;
-    }
-</style>
