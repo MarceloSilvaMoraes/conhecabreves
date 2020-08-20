@@ -10,14 +10,26 @@ class homeController extends controller
 		$tipo  = $local->tipo();
 		$dados['tipo'] = $tipo;
 		$dados['l'] = $l;
-	
 
-			$parceiros = $parca->parceirosCadastrados();
-			$dados['parceiros'] = $parceiros;
+
+		$parceiros = $parca->parceirosCadastrados();
+		$dados['parceiros'] = $parceiros;
 
 		$quant = $local->dadosDeEstatistica();
 
 		$this->loadTemplate('home', $dados);
+	}
+	public function pesquisa()
+	{
+		$dados = array();
+		$busca = new Parceiros();
+		if (isset($_GET['nome'])) {
+			$nome = addslashes($_GET['nome']);
+			$retornoBusca = $busca->buscar($nome);
+		}
+		$dados['buscando'] = $retornoBusca;
+
+		$this->loadTemplate('pesquisa', $dados);
 	}
 	public function dadosComerciosRecebidos()
 	{

@@ -43,6 +43,12 @@
 						</a>
 					</li>
 				<?php else : ?>
+					<nav class="navbar navbar-light lg-light">
+						<form class="form-inline" method="GET" action="<?php echo BASE_URL ?>home/pesquisa">
+							<input class="form-control mr-sm-2" name="nome" type="search" placeholder="Search" aria-label="Search">
+							<button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+						</form>
+					</nav>
 					<li class="nav-item">
 					<li class="nav-item">
 						<a class="nav-link" href="<?php echo BASE_URL ?>home">Home</a>

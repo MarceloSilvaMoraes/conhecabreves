@@ -143,7 +143,7 @@ class Parceiros extends model
         if ($sql->rowCount() > 0) {
             $array = $sql->fetch();
             $array['url_img_parceiro'] = array();
-           
+
             $sql = "SELECT * FROM imgs_anuncios_parceiros WHERE id_anuncio_parceiro = :id_anuncio_parceiro";
             $sql = $this->pdo->prepare($sql);
             $sql->bindValue(":id_anuncio_parceiro", $id_anuncio_parceiro);
@@ -151,13 +151,11 @@ class Parceiros extends model
 
             if ($sql->rowCount() > 0) {
                 $array['url_img_parceiro'] = $sql->fetchAll();
-            }else{
+            } else {
                 $array['url_img_parceiro'] = array();
             }
             return $array;
         }
-
-
     }
     public function getTodosAnunciosParceiros($urEli)
     {
@@ -206,5 +204,32 @@ class Parceiros extends model
             echo $url_img_parceiro;
             return $url_img_parceiro;
         }
+    }
+    public function buscar($nome)
+    {
+        $sql = "SELECT *,
+        (select parceiros.img_parceiro from parceiros where parceiros.id_dados_comercio = dados_comercio.id
+         limit 1) as url,(select comercio_tipo.id_tipo from comercio_tipo 
+         where comercio_tipo.id_tipo = dados_comercio.id_comercio) as comercio_tipo 
+         FROM dados_comercio WHERE nome LIKE :nome";
+       $sql = $this->pdo->prepare($sql);
+       $sql->bindValue(":nome", '%'.$nome.'%');
+       $sql->execute();
+
+       if ($sql->rowCount() > 0) {
+           $sql = $sql->fetchAll();
+           return $sql;
+       }
+
+    //     $sql = $this->pdo->prepare("SELECT * FROM dados_comercio WHERE nome LIKE :nome");
+    //     $sql->bindValue(":nome", '%'.$nome.'%');
+
+    //     $sql->execute();
+    //     if ($sql->rowCount() > 0) {
+    //         $sql = $sql->fetchAll();
+    //    return $sql;
+
+    //     }
+
     }
 }
