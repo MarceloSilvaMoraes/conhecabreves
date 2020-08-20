@@ -7,6 +7,12 @@
     position: fixed;
 }
 
+
+/* #navbarSupportedContent {
+    display: flex;
+    justify-content: space-between;
+} */
+
 .climatempo {
     /*height: auto;*/
     width: 100%;

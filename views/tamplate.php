@@ -43,12 +43,7 @@
 						</a>
 					</li>
 				<?php else : ?>
-					<nav class="navbar navbar-light lg-light">
-						<form class="form-inline" method="GET" action="<?php echo BASE_URL ?>home/pesquisa">
-							<input class="form-control mr-sm-2" name="nome" type="search" placeholder="Search" aria-label="Search">
-							<button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
-						</form>
-					</nav>
+						
 					<li class="nav-item">
 					<li class="nav-item">
 						<a class="nav-link" href="<?php echo BASE_URL ?>home">Home</a>
@@ -65,6 +60,10 @@
 							Login
 						</a>
 					</li>
+					<form class="form-inline" method="GET" action="<?php echo BASE_URL ?>home/pesquisa">
+							<input class="form-control mr-lg-2" name="nome" type="Pesquisar" placeholder="Pesquisar" aria-label="Search">
+							<button class="btn btn-success my-4 my-sm-0" type="submit">Buscar</button>
+					</form>
 				<?php endif; ?>
 
 			</ul>
@@ -102,7 +101,10 @@
 	<link rel="stylesheet" href="<?php echo BASE_URL ?>assets/css/bootstrap.min.css">
 	<script src="<?php echo BASE_URL ?>assets/js/script.js"></script>
 	<script src="<?php echo BASE_URL ?>assets/js/bootstrap.bundle.min.js"></script>
-	<script type="text/javascript" src="<?php echo BASE_URL ?>assets/js/mask.js"></script>
+	<script src="<?php echo BASE_URL ?>assets/js/mask.js"></script>
+	<script src="<?php echo BASE_URL ?>assets/js/npm.js">
+</script>
+
 </body>
 
 </html>
