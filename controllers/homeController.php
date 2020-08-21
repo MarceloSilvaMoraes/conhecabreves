@@ -12,22 +12,33 @@ class homeController extends controller
 		$dados['l'] = $l;
 
 
-		$parceiros = $parca->parceirosCadastrados();
-		$dados['parceiros'] = $parceiros;
+		// $parceiros = $parca->parceirosCadastrados();
+		// $dados['parceiros'] = $parceiros;
 
-		$quant = $local->dadosDeEstatistica();
+		// $quant = $local->dadosDeEstatistica();
 
 		$this->loadTemplate('home', $dados);
 	}
 	public function pesquisa()
 	{
 		$dados = array();
-		$busca = new Parceiros();
+		$buscar = new Locais();
 		if (isset($_GET['nome'])) {
 			$nome = addslashes($_GET['nome']);
-			$retornoBusca = $busca->buscar($nome);
+			$retornoBusca = $buscar->buscar($nome);
+		} else {
+			array();
 		}
+		if (!empty($_GET['categorias'])) {
+			$id_tipo = addslashes($_GET['categorias']);
+			$retornoBusca = $buscar->tipo_comercio($id_tipo);
+			
+		}
+
+		$retornoCategorias = $buscar->tipo();
+
 		$dados['buscando'] = $retornoBusca;
+		$dados['categorias'] = $retornoCategorias;
 
 		$this->loadTemplate('pesquisa', $dados);
 	}

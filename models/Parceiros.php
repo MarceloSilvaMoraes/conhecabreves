@@ -30,22 +30,22 @@ class Parceiros extends model
             return $sql;
         }
     }
-    public function parceirosCadastrados()
-    {
-        $sql = "SELECT comercio_tipo.*, dados_comercio.*, parceiros.* from comercio_tipo 
-         INNER JOIN dados_comercio ON comercio_tipo.id_tipo = dados_comercio.id_comercio
-         INNER JOIN parceiros ON parceiros.id_dados_comercio = dados_comercio.id";
-        $sql = $this->pdo->prepare($sql);
-        // $sql->bindValue(":id_dados_comercio", $id);
+    // public function parceirosCadastrados()
+    // {
+    //     $sql = "SELECT comercio_tipo.*, dados_comercio.*, parceiros.* from comercio_tipo 
+    //      INNER JOIN dados_comercio ON comercio_tipo.id_tipo = dados_comercio.id_comercio
+    //      INNER JOIN parceiros ON parceiros.id_dados_comercio = dados_comercio.id";
+    //     $sql = $this->pdo->prepare($sql);
+    //     // $sql->bindValue(":id_dados_comercio", $id);
 
-        $sql->execute();
-        if ($sql->rowCount() > 0) {
+    //     $sql->execute();
+    //     if ($sql->rowCount() > 0) {
 
-            $sql = $sql->fetchAll();
+    //         $sql = $sql->fetchAll();
 
-            return $sql;
-        }
-    }
+    //         return $sql;
+    //     }
+    // }
     public function inserir_anuncio_parceiro($id_parceiro, $descricao, $valor)
     {
         $sql = $this->pdo->prepare("INSERT INTO anuncios_parceiro SET id_parceiro = :id_parceiro, descricao = :descricao, valor = :valor");
@@ -205,31 +205,6 @@ class Parceiros extends model
             return $url_img_parceiro;
         }
     }
-    public function buscar($nome)
-    {
-        $sql = "SELECT *,
-        (select parceiros.img_parceiro from parceiros where parceiros.id_dados_comercio = dados_comercio.id
-         limit 1) as url,(select comercio_tipo.id_tipo from comercio_tipo 
-         where comercio_tipo.id_tipo = dados_comercio.id_comercio) as comercio_tipo 
-         FROM dados_comercio WHERE nome LIKE :nome";
-       $sql = $this->pdo->prepare($sql);
-       $sql->bindValue(":nome", '%'.$nome.'%');
-       $sql->execute();
-
-       if ($sql->rowCount() > 0) {
-           $sql = $sql->fetchAll();
-           return $sql;
-       }
-
-    //     $sql = $this->pdo->prepare("SELECT * FROM dados_comercio WHERE nome LIKE :nome");
-    //     $sql->bindValue(":nome", '%'.$nome.'%');
-
-    //     $sql->execute();
-    //     if ($sql->rowCount() > 0) {
-    //         $sql = $sql->fetchAll();
-    //    return $sql;
-
-    //     }
-
-    }
+   
+   
 }

@@ -3,18 +3,36 @@
 </div>
 <div class="local_corpo">
     <div class="container" id="container_column">
-        <div class='titulo'>
-          
-                  <h1>Resultado</h1>
-            
+        <div class='pesquisar'>
+            <div class="card card-default" >
+                <div class="card-header">Pesquisar</div>
+                <div class="card card-body">
+                    <form method="GET">
+                        <div class="form-group">
+                            <label for="categorias">Categoria:</label>
+                            <select name="categorias" class="form-control">
+                                <option value="">Selecione</option>
+                                <?php foreach ($categorias as $cat) : ?>
+                                    <option value="<?= $cat['id_tipo'] ?>"><?= $cat['nome_tipo'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" value="">Buscar</button>
+                    </form>
+                </div>
+            </div>
+
         </div>
-        <div class="locales">
-            <?php
-            if (isset($buscando)) :
-                foreach ($buscando as $data) :
-                 
-                        // print_r($data);
-            ?>
+        <div class='titulo'>
+            <h1>Resultado</h1>
+        </div>
+        <div class="corpoEpesquisa">
+            <div class="locales">
+
+                <?php
+                if (isset($buscando)) :
+                    foreach ($buscando as $data) :
+                ?>
                         <div class="locale" id="locale<?php echo $data['id'] ?>">
                             <div class="localeInt">
                                 <div class="localeData">
@@ -26,7 +44,6 @@
                                             <?php echo $data['nome'] ?>
                                         </div>
                                     <?php endif; ?>
-
                                 </div>
                                 <?php if ($data['parceiro'] === 0 || empty($data['parceiro'])) : ?>
                                     <div style="display: none" class="parceiro"></div>
@@ -69,12 +86,13 @@
                                 </div>
                             </div>
                         </div>
-                <?php
+                    <?php
 
-                endforeach;
-            else : ?>
-                <h1>Nenhum estabelecimento cadastrado</h1>
-            <?php endif; ?>
+                    endforeach;
+                else : ?>
+                    <h1>Nenhum estabelecimento cadastrado</h1>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>

@@ -60,7 +60,7 @@
 							Login
 						</a>
 					</li>
-					<form class="form-inline" method="GET" action="<?php echo BASE_URL ?>home/pesquisa">
+					<form class="form-inline" method="GET" action="<?php echo BASE_URL ?>home/pesquisa" style="margin-right: 30px;">
 							<input class="form-control mr-lg-2" name="nome" type="Pesquisar" placeholder="Pesquisar" aria-label="Search">
 							<button class="btn btn-success my-4 my-sm-0" type="submit">Buscar</button>
 					</form>

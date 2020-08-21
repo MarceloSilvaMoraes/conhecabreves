@@ -18,6 +18,31 @@
     position: relative;
 }
 
+
+/* .corpoEpesquisa {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+} */
+
+
+/* #card {
+    position: fixed;
+    z-index: 9999999999999999999;
+    margin-top: 150px;
+    width: 200px;
+} */
+
+.card-body {
+    width: 200px;
+}
+
+.card-header {
+    width: 200px;
+    background: #107890!important;
+    color: white!important;
+}
+
 #container_column {
     width: 100%;
     min-height: 600px;
@@ -28,13 +53,21 @@
     justify-content: center;
 }
 
-.titulo {
-    position: relative;
-    font-weight: bold;
+.pesquisar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start !important;
     margin-top: 100px;
+    margin-bottom: -50px;
+    width: 100%;
+}
+
+.titulo {
+    font-weight: bold;
     border-left: 2px solid #dc3545;
     padding: 5px;
     height: 130px;
+    margin-top: 100px;
 }
 
 .titulo h1 {

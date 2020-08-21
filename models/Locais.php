@@ -2,7 +2,7 @@
 class Locais extends model
 {
 
-   
+
     public function tipo_comercio($id_tipo)
     {
         $sql = "SELECT *,
@@ -18,6 +18,24 @@ class Locais extends model
             $sql = $sql->fetchAll();
             return $sql;
         }
+    }
+    public function buscar($nome)
+    {
+        $sql = "SELECT *,
+        (select parceiros.img_parceiro from parceiros where parceiros.id_dados_comercio = dados_comercio.id
+         limit 1) as url,(select comercio_tipo.id_tipo from comercio_tipo 
+         where comercio_tipo.id_tipo = dados_comercio.id_comercio) as comercio_tipo 
+         FROM dados_comercio WHERE nome LIKE :nome";
+       $sql = $this->pdo->prepare($sql);
+       $sql->bindValue(":nome", '%'.$nome.'%');
+       $sql->execute();
+
+       if ($sql->rowCount() > 0) {
+           $sql = $sql->fetchAll();
+           return $sql;
+       }else{
+           return array();
+       }
     }
     public function tipo()
     {
@@ -50,6 +68,7 @@ class Locais extends model
         $sql->bindValue(":site", $site);
         $sql->execute();
     }
+
     public function inserir_comercio_recebido($id_tipo_comercio, $nome, $face, $wts, $insta, $maps, $site)
     {
         $sql = "INSERT INTO comercio_recebido SET id_tipo_comercio = :id_tipo_comercio, nome = :nome, facebook = :facebook, wts = :wts, instagram = :instagram, url_maps = :url_maps, site = :site";
@@ -144,17 +163,7 @@ class Locais extends model
             return $sql;
         }
     }
-    // public function update_comercio($id_comercio, $nome)
-    // {
-    //     $sql = "UPDATE comercio_tipo SET nome_tipo = :nome_tipo WHERE id_tipo = :id_tipo";
-    //     $sql = $this->pdo->prepare($sql);
-    //     $sql->bindValue(":nome_tipo", $nome);
-    //     $sql->bindValue(":id_tipo", $id_comercio);
-    //     $sql->execute();
-    // }
-
-
-    public function update_comercio($id_comercio, $nome, $img)
+       public function update_comercio($id_comercio, $nome, $img)
     {
         $sql = $this->pdo->prepare("UPDATE comercio_tipo SET nome_tipo = :nome_tipo WHERE id_tipo = :id_tipo");
         $sql->bindValue(":nome_tipo", $nome);
@@ -207,7 +216,7 @@ class Locais extends model
         $sql->execute();
         if ($sql->rowCount() > 0) {
             $row = $sql->fetch();
-             $id_tipo_comercio = $row['id_tipo_comercio'];
+            $id_tipo_comercio = $row['id_tipo_comercio'];
         }
         $sql = $this->pdo->prepare("DELETE FROM imagens_come WHERE id = :id");
         $sql->bindValue(":id", $id);
@@ -267,7 +276,7 @@ class Locais extends model
 
 
     }
-    
+
     public function getUsuarios()
     {
         $sql = "SELECT * FROM usuarios";
@@ -321,116 +330,53 @@ class Locais extends model
         if (count($img_parceiro) > 0) {
             for ($q = 0; $q < count($img_parceiro['tmp_name']); $q++) {
                 for ($i = 0; $i < count($img_baner['tmp_name']); $i++) {
-                $tipo = $img_parceiro['type'][$q]; 
-                $tipo2 = $img_baner['type'][$i];
-                if (in_array($tipo, array('image/jpeg', 'image/png')) || in_array($tipo2, array('image/jpeg', 'image/png'))) {
-                    $tmpname = md5(time() . rand(0, 9999)) . '.jpg';
-                    $tmpname2 = md5(time() . rand(0, 9999)) . '.jpg';
-                    move_uploaded_file($img_parceiro['tmp_name'][$q], 'assets/arquivos/' . $tmpname);
-                    move_uploaded_file($img_baner['tmp_name'][$q], 'assets/arquivos/' . $tmpname2);
-                    list($width_orig, $height_orig) = getimagesize('assets/arquivos/' . $tmpname);
-                    list($width_orig, $height_orig) = getimagesize('assets/arquivos/' . $tmpname2);
-                    $ratio = $width_orig / $height_orig;
-                    $width = 200;
-                    $height = 200;
-                    if ($width / $height > $ratio) {
-                        $width = $height * $ratio;
-                    } else {
-                        $height = $width / $ratio;
-                    }
-                    $img_parceiro = imagecreatetruecolor($width, $height);
-                    $img_baner = imagecreatetruecolor($width, $height);
+                    $tipo = $img_parceiro['type'][$q];
+                    $tipo2 = $img_baner['type'][$i];
+                    if (in_array($tipo, array('image/jpeg', 'image/png')) || in_array($tipo2, array('image/jpeg', 'image/png'))) {
+                        $tmpname = md5(time() . rand(0, 9999)) . '.jpg';
+                        $tmpname2 = md5(time() . rand(0, 9999)) . '.jpg';
+                        move_uploaded_file($img_parceiro['tmp_name'][$q], 'assets/arquivos/' . $tmpname);
+                        move_uploaded_file($img_baner['tmp_name'][$q], 'assets/arquivos/' . $tmpname2);
+                        list($width_orig, $height_orig) = getimagesize('assets/arquivos/' . $tmpname);
+                        list($width_orig, $height_orig) = getimagesize('assets/arquivos/' . $tmpname2);
+                        $ratio = $width_orig / $height_orig;
+                        $width = 200;
+                        $height = 200;
+                        if ($width / $height > $ratio) {
+                            $width = $height * $ratio;
+                        } else {
+                            $height = $width / $ratio;
+                        }
+                        $img_parceiro = imagecreatetruecolor($width, $height);
+                        $img_baner = imagecreatetruecolor($width, $height);
 
-                    if ($tipo == 'image/jpeg') {
-                        $origi = imagecreatefromjpeg('assets/arquivos/' . $tmpname);
-                    } elseif ($tipo == 'image/png') {
-                        $origi = imagecreatefrompng('assets/arquivos/' . $tmpname);
-                    }
-                    if ($tipo2 == 'image/jpeg') {
-                        $origi = imagecreatefromjpeg('assets/arquivos/' . $tmpname2);
-                    } elseif ($tipo == 'image/png') {
-                        $origi = imagecreatefrompng('assets/arquivos/' . $tmpname2);
-                    }
-                    imagealphablending($origi, false);
-                    imagesavealpha($origi, true);
+                        if ($tipo == 'image/jpeg') {
+                            $origi = imagecreatefromjpeg('assets/arquivos/' . $tmpname);
+                        } elseif ($tipo == 'image/png') {
+                            $origi = imagecreatefrompng('assets/arquivos/' . $tmpname);
+                        }
+                        if ($tipo2 == 'image/jpeg') {
+                            $origi = imagecreatefromjpeg('assets/arquivos/' . $tmpname2);
+                        } elseif ($tipo == 'image/png') {
+                            $origi = imagecreatefrompng('assets/arquivos/' . $tmpname2);
+                        }
+                        imagealphablending($origi, false);
+                        imagesavealpha($origi, true);
 
-                    imagecopyresampled($img_parceiro, $origi, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-                    imagecopyresampled($img_baner, $origi, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-                   
-                    $sql = "INSERT INTO parceiros SET id_dados_comercio = :id_dados_comercio, validacao_parceiro = :validacao_parceiro, img_parceiro = :img_parceiro, img_baner = :img_baner, url = :url";
-                    $sql = $this->pdo->prepare($sql);
-                    $sql->bindValue(":id_dados_comercio", $id_dados_comercio);
-                    $sql->bindValue(":validacao_parceiro", $validacao_parceiro);
-                    $sql->bindValue(":img_parceiro", $tmpname);
-                    $sql->bindValue(":img_baner", $tmpname2);
-                    $sql->bindValue(":url", $url);
-                    $sql->execute();
+                        imagecopyresampled($img_parceiro, $origi, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+                        imagecopyresampled($img_baner, $origi, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+
+                        $sql = "INSERT INTO parceiros SET id_dados_comercio = :id_dados_comercio, validacao_parceiro = :validacao_parceiro, img_parceiro = :img_parceiro, img_baner = :img_baner, url = :url";
+                        $sql = $this->pdo->prepare($sql);
+                        $sql->bindValue(":id_dados_comercio", $id_dados_comercio);
+                        $sql->bindValue(":validacao_parceiro", $validacao_parceiro);
+                        $sql->bindValue(":img_parceiro", $tmpname);
+                        $sql->bindValue(":img_baner", $tmpname2);
+                        $sql->bindValue(":url", $url);
+                        $sql->execute();
+                    }
                 }
             }
         }
-    
-}
-    }
-    public function dadosDeEstatistica()
-    {
-        // $sql = "SELECT *,(select comercio_tipo.nome_tipo from comercio_tipo where 
-        // comercio_tipo.id_tipo = dados_comercio.id_comercio) as cat FROM dados_comercio WHERE id_comercio = id_comercio";
-        // $sql = $this->pdo->query($sql);
-        // if ($sql->rowCount() > 0) {
-        //     $sql = $sql->fetchAll();
-        //     $quant = $sql;
-        //     $q = count($quant);
-        //     foreach ($sql as $item) {
-        //         if (!empty($item['facebook']) && $item['facebook'] != "null") {
-        //             if ($item['cat'] == "Novo") {
-        //                 echo count($item['facebook']) . "<br>";
-        //                 $d = count($item['facebook']);
-        //                 for ($d = $d; $d <= $q; $d++) {
-        //                     print_r(count($item['facebook']));
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-        //         $sql = "SELECT dados_comercio.*, comercio_tipo.* FROM dados_comercio INNER JOIN
-        //          comercio_tipo ON dados_comercio.id_comercio = comercio_tipo.id_tipo where id_comercio = id_tipo";
-        //         $sql = $this->pdo->query($sql);
-        //         if ($sql->rowCount() > 0) {
-        //             $sql = $sql->fetchAll();
-        //             $var = 0;
-        //             foreach ($sql as $item) {
-        //                 if (!empty($item['site']) && $item['site'] != "null") {
-        //                     if ($item['id_comercio'] == $item['id_tipo']) {
-        //                         if ($item['nome_tipo'] == "Novo") {
-        //                          $d = count($item['site']);
-        //                          echo  $var += $d;
-        //                     }
-        //                 }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-        // SELECT *, count(facebook) as facebook, count(instagram) as instagram, count(wts) as wts, count(site) as site, (select comercio_tipo.id_tipo from comercio_tipo where 
-        // comercio_tipo.id_tipo = dados_comercio.id_comercio) FROM dados_comercio WHERE id_comercio = id_comercio GROUP BY facebook, instagram
-        $sql = "SELECT *, count(facebook), count(instagram), count(wts), count(site), count(url_maps), 
-        (select comercio_tipo.id_tipo from comercio_tipo where
-         comercio_tipo.id_tipo = dados_comercio.id_comercio) as t FROM dados_comercio WHERE id_comercio = id_comercio";
-        $sql = $this->pdo->query($sql);
-        if ($sql->rowCount() > 0) {
-            $sql = $sql->fetchAll();
-            //    $sql = $sql['t'];
-            // print_r($sql);
-        }
-        //         $sql = "SELECT dados_comercio.*, comercio_tipo.* FROM dados_comercio 
-        //         INNER JOIN comercio_tipo ON dados_comercio.id_comercio = comercio_tipo.id_tipo where id_comercio = id_tipo";
-        //         $sql = $this->pdo->query($sql);
-        //         if ($sql->rowCount() > 0) {
-        //             $sql = $sql->fetchAll();
-        //             //    $sql = $sql['t'];
-        //             print_r($sql);
-        //         }
     }
 }
