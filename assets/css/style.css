@@ -7,18 +7,12 @@
     position: fixed;
 }
 
-
-/* #navbarSupportedContent {
-    display: flex;
-    justify-content: space-between;
-} */
-
 .climatempo {
-    /*height: auto;*/
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 100px;
 }
 
 .dia_atual {
@@ -165,11 +159,8 @@
 .squadis {
     height: 100%;
     height: auto;
-    min-height: 1000px;
-    /* margin-top: 0px; */
-    z-index: 10000000;
-    /* background-color: #00040ac4; */
-    /* coloccar img aqui */
+    min-height: 1300px;
+    z-index: 1000000;
     background: -webkit-gradient(linear, 44% 20%, 42% 33%, from(#107890e6), to(#4a26b880));
     display: flex;
     justify-content: center;

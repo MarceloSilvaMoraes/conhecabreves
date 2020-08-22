@@ -96,16 +96,32 @@ function hg_request($parametros, $chave = null, $endpoint = 'weather')
                     Facebook, Site/Blog, endereço no Google Maps e WhatssApp. Se o seu comercio
                     não estiver no site, faça seu cadastro através do botão abaixo.
                 </strong>
-                <h6>
-                    <stong>Obs: no momento, estamos divulgando apenas estabelecimentos
-                        dados como essencias, e aos poucos vamos atualizando com os que não são.</stong>
-                </h6>
             </div>
             <div class="cadEmpresa">
                 <div class="mensagem"></div>
-                <button style="border-radius: 50px;" id="reserva" type="button" class="btn btn-warning" data-toggle="modal" data-target="#MCenter">
+                <button style="border-radius: 50px; margin-bottom: 100px;" id="reserva" type="button" class="btn btn-warning" data-toggle="modal" data-target="#MCenter">
                     <span>Cadastre Seu Negócio</span>
                 </button>
+            </div>
+            <div class='pesquisar'>
+                <div class="card card-default">
+                    <div class="card-header">Pesquisar</div>
+                    <div class="card card-body">
+                        <form method="GET" action="home/pesquisa">
+                            <div class="form-group">
+                                <label for="categorias">Categoria:</label>
+                                <select name="categorias" class="form-control">
+                                    <option value="">Selecione</option>
+                                    <?php foreach ($categorias as $cat) : ?>
+                                        <option value="<?= $cat['id_tipo'] ?>"><?= $cat['nome_tipo'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" value="">Buscar</button>
+                        </form>
+                    </div>
+                </div>
+
             </div>
         </article>
     </div>
@@ -131,7 +147,7 @@ function hg_request($parametros, $chave = null, $endpoint = 'weather')
                     <h1>Nenhum Estabelecimento Cadastrado</h1>
                 <?php endif; ?>
             </div>
-          
+
         </div>
     </div>
 </div>

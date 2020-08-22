@@ -11,7 +11,9 @@ class homeController extends controller
 		$dados['tipo'] = $tipo;
 		$dados['l'] = $l;
 
+		$retornoCategorias = $local->tipo();
 
+		$dados['categorias'] = $retornoCategorias;
 		// $parceiros = $parca->parceirosCadastrados();
 		// $dados['parceiros'] = $parceiros;
 
