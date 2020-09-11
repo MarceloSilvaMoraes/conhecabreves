@@ -128,9 +128,9 @@ function hg_request($parametros, $chave = null, $endpoint = 'weather')
 </div>
 <div class="fundo">
     <div class="squadis">
-        <div class="container" id="containerCorpo">
-            <h1>Estabelecimetos</h1>
-            <div class="estabelecimentos">
+        <div class="container" id="containerCorpo" >
+            <h1 id="estabelecimentos">Estabelecimetos</h1>
+            <div class="estabelecimentos" >
                 <?php if (isset($l)) : ?>
                     <?php foreach ($l as $dados) : ?>
                         <a href="<?php BASE_URL ?>home/local/<?php echo $dados['id_tipo']; ?>">
